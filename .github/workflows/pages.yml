@@ -37,7 +37,7 @@ jobs:
           <html lang="pt-BR" data-theme="light">
             <head>
               <meta charset="UTF-8" />
-              <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+              <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
               <meta name="description" content="Template central de Brand Book e Design System" />
               <title>Brand & Design System</title>
               <style>
@@ -81,7 +81,7 @@ jobs:
                 }
 
                 button, input, a { font: inherit; }
-                button, a { -webkit-tap-highlight-color: transparent; }
+                button, a { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
                 a { color: inherit; text-decoration: none; }
                 :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 
@@ -99,23 +99,38 @@ jobs:
                   flex-direction: column;
                   background: var(--surface);
                   border-right: 1px solid var(--border);
-                  z-index: 20;
+                  z-index: 40;
                 }
 
                 .brand {
-                  height: var(--topbar);
+                  min-height: var(--topbar);
                   display: flex;
                   align-items: center;
                   gap: 10px;
-                  padding: 0 20px;
+                  padding: 0 14px 0 20px;
                   border-bottom: 1px solid var(--border);
                   font-weight: 720;
                   letter-spacing: -0.02em;
                 }
 
+                .brand-title {
+                  min-width: 0;
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                  flex: 1;
+                }
+
+                .brand-title span:last-child {
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                }
+
                 .mark {
                   width: 30px;
                   height: 30px;
+                  flex: 0 0 auto;
                   border-radius: 9px;
                   display: grid;
                   place-items: center;
@@ -125,17 +140,21 @@ jobs:
                   font-weight: 800;
                 }
 
+                .drawer-close { display: none; }
+
                 .nav {
                   padding: 14px 12px;
                   overflow: auto;
+                  overscroll-behavior: contain;
                   flex: 1;
                 }
 
+                .mobile-search { display: none; }
                 .nav-group + .nav-group { margin-top: 4px; }
 
                 .nav-trigger {
                   width: 100%;
-                  min-height: 42px;
+                  min-height: 44px;
                   display: flex;
                   align-items: center;
                   justify-content: space-between;
@@ -155,8 +174,8 @@ jobs:
 
                 .nav-trigger:hover { background: var(--surface-subtle); }
                 .nav-chevron {
-                  width: 18px;
-                  height: 18px;
+                  width: 20px;
+                  height: 20px;
                   display: grid;
                   place-items: center;
                   color: var(--muted);
@@ -176,7 +195,7 @@ jobs:
                 .nav-link {
                   display: flex;
                   align-items: center;
-                  min-height: 38px;
+                  min-height: 42px;
                   margin: 1px 0;
                   padding: 0 12px 0 20px;
                   border-radius: 9px;
@@ -191,10 +210,23 @@ jobs:
                 .nav-group.search-hidden { display: none; }
 
                 .sidebar-footer {
-                  padding: 14px 20px 18px;
+                  padding: 14px 20px calc(18px + env(safe-area-inset-bottom));
                   color: var(--muted);
                   border-top: 1px solid var(--border);
                   font-size: 12px;
+                }
+
+                .nav-backdrop {
+                  position: fixed;
+                  inset: 0;
+                  z-index: 30;
+                  display: none;
+                  padding: 0;
+                  border: 0;
+                  background: rgba(0, 0, 0, 0.42);
+                  opacity: 0;
+                  pointer-events: none;
+                  transition: opacity 180ms ease;
                 }
 
                 .workspace { min-width: 0; }
@@ -214,7 +246,14 @@ jobs:
                 }
 
                 .menu-button { display: none; }
-                .breadcrumb { min-width: max-content; font-size: 13px; color: var(--muted); }
+                .breadcrumb {
+                  min-width: 0;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                  font-size: 13px;
+                  color: var(--muted);
+                }
                 .breadcrumb strong { color: var(--text); }
 
                 .search {
@@ -223,9 +262,10 @@ jobs:
                   position: relative;
                 }
 
-                .search input {
+                .search input,
+                .mobile-search input {
                   width: 100%;
-                  height: 38px;
+                  height: 40px;
                   padding: 0 14px 0 36px;
                   color: var(--text);
                   background: var(--surface-subtle);
@@ -234,12 +274,14 @@ jobs:
                   outline: none;
                 }
 
-                .search input:focus { border-color: var(--border); background: var(--surface); }
-                .search-icon { position: absolute; left: 12px; top: 8px; color: var(--muted); }
+                .search input:focus,
+                .mobile-search input:focus { border-color: var(--border); background: var(--surface); }
+                .search-icon { position: absolute; left: 12px; top: 9px; color: var(--muted); pointer-events: none; }
 
                 .icon-button {
-                  width: 38px;
-                  height: 38px;
+                  width: 40px;
+                  height: 40px;
+                  flex: 0 0 auto;
                   display: grid;
                   place-items: center;
                   color: var(--text);
@@ -277,7 +319,7 @@ jobs:
 
                 .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
                 .button {
-                  min-height: 42px;
+                  min-height: 44px;
                   display: inline-flex;
                   align-items: center;
                   justify-content: center;
@@ -333,29 +375,100 @@ jobs:
 
                 @media (max-width: 720px) {
                   .app { grid-template-columns: 1fr; }
+
+                  body.nav-open { overflow: hidden; }
+
                   .sidebar {
                     position: fixed;
-                    left: 0;
-                    width: min(84vw, 292px);
+                    inset: 0 auto 0 0;
+                    width: min(88vw, 320px);
+                    height: 100dvh;
                     transform: translateX(-105%);
                     transition: transform 180ms ease;
-                    box-shadow: 12px 0 40px rgba(0,0,0,.12);
+                    box-shadow: 12px 0 40px rgba(0,0,0,.18);
                   }
                   body.nav-open .sidebar { transform: translateX(0); }
-                  .menu-button { display: grid; }
+
+                  .nav-backdrop { display: block; }
+                  body.nav-open .nav-backdrop {
+                    opacity: 1;
+                    pointer-events: auto;
+                  }
+
+                  .brand {
+                    min-height: 64px;
+                    padding-top: env(safe-area-inset-top);
+                  }
+
+                  .drawer-close {
+                    width: 44px;
+                    height: 44px;
+                    display: grid;
+                    place-items: center;
+                    flex: 0 0 auto;
+                    border: 0;
+                    border-radius: 10px;
+                    color: var(--text);
+                    background: transparent;
+                    cursor: pointer;
+                    font-size: 22px;
+                  }
+                  .drawer-close:hover { background: var(--surface-subtle); }
+
+                  .nav { padding-top: 10px; }
+                  .mobile-search {
+                    display: block;
+                    position: relative;
+                    margin: 0 0 12px;
+                  }
+
+                  .nav-trigger { min-height: 48px; font-size: 13px; }
+                  .nav-link { min-height: 46px; padding-left: 18px; }
+
+                  .topbar {
+                    height: calc(60px + env(safe-area-inset-top));
+                    padding: env(safe-area-inset-top) 12px 0;
+                    gap: 8px;
+                  }
+
+                  .menu-button { display: grid; width: 44px; height: 44px; }
+                  .topbar .search { display: none; }
+                  .breadcrumb { flex: 1; font-size: 13px; }
                   .breadcrumb span { display: none; }
-                  .search { width: auto; flex: 1; }
-                  main { padding-top: 44px; }
+                  .topbar .icon-button:not(.menu-button) { width: 44px; height: 44px; }
+
+                  main { padding: 36px 18px 72px; }
+                  h1 { font-size: clamp(38px, 12vw, 54px); }
+                  .lead { font-size: 17px; }
+                  .actions { display: grid; grid-template-columns: 1fr; }
+                  .button { width: 100%; min-height: 48px; }
+                  .section { margin-top: 56px; }
                   .grid { grid-template-columns: 1fr; }
+                  .card { min-height: auto; }
+                  .card h3 { margin-top: 24px; }
                   .rule { grid-template-columns: 1fr; gap: 5px; }
+                }
+
+                @media (prefers-reduced-motion: reduce) {
+                  html { scroll-behavior: auto; }
+                  .sidebar, .nav-backdrop, .nav-items, .nav-chevron { transition: none !important; }
                 }
               </style>
             </head>
             <body>
               <div class="app">
-                <aside class="sidebar" id="sidebar">
-                  <div class="brand"><div class="mark">BD</div>Brand System</div>
+                <aside class="sidebar" id="sidebar" aria-label="Navegação principal">
+                  <div class="brand">
+                    <div class="brand-title"><div class="mark">BD</div><span>Brand System</span></div>
+                    <button class="drawer-close" id="closeMenuButton" type="button" aria-label="Fechar menu">×</button>
+                  </div>
+
                   <nav class="nav" aria-label="Documentação">
+                    <label class="mobile-search">
+                      <span class="search-icon">⌕</span>
+                      <input id="mobileSearch" type="search" placeholder="Buscar na documentação" aria-label="Buscar na documentação" />
+                    </label>
+
                     <div class="nav-group open" data-group="start">
                       <button class="nav-trigger" type="button" aria-expanded="true" aria-controls="nav-start">
                         <span>Start</span><span class="nav-chevron" aria-hidden="true">›</span>
@@ -387,18 +500,20 @@ jobs:
                       </div></div>
                     </div>
                   </nav>
-                  <div class="sidebar-footer">Template v0.2 · Collapsible navigation</div>
+                  <div class="sidebar-footer">Template v0.3 · Mobile UX</div>
                 </aside>
+
+                <button class="nav-backdrop" id="navBackdrop" type="button" tabindex="-1" aria-label="Fechar menu" aria-hidden="true"></button>
 
                 <div class="workspace">
                   <header class="topbar">
-                    <button class="icon-button menu-button" id="menuButton" aria-label="Abrir menu">☰</button>
+                    <button class="icon-button menu-button" id="menuButton" type="button" aria-label="Abrir menu" aria-controls="sidebar" aria-expanded="false">☰</button>
                     <div class="breadcrumb"><span>Documentation / </span><strong id="currentPage">Overview</strong></div>
                     <label class="search">
                       <span class="search-icon">⌕</span>
                       <input id="search" type="search" placeholder="Buscar na documentação" aria-label="Buscar na documentação" />
                     </label>
-                    <button class="icon-button" id="themeButton" aria-label="Alternar tema">◐</button>
+                    <button class="icon-button" id="themeButton" type="button" aria-label="Alternar tema">◐</button>
                   </header>
 
                   <main id="overview">
@@ -439,13 +554,23 @@ jobs:
 
               <script>
                 const root = document.documentElement;
+                const body = document.body;
+                const sidebar = document.getElementById('sidebar');
                 const themeButton = document.getElementById('themeButton');
                 const search = document.getElementById('search');
+                const mobileSearch = document.getElementById('mobileSearch');
                 const menuButton = document.getElementById('menuButton');
+                const closeMenuButton = document.getElementById('closeMenuButton');
+                const navBackdrop = document.getElementById('navBackdrop');
                 const currentPage = document.getElementById('currentPage');
                 const groups = Array.from(document.querySelectorAll('.nav-group'));
                 const links = Array.from(document.querySelectorAll('.nav-link'));
+                const mobileQuery = window.matchMedia('(max-width: 720px)');
                 const savedTheme = localStorage.getItem('brand-docs-theme');
+
+                function isMobile() {
+                  return mobileQuery.matches;
+                }
 
                 function setGroup(group, open) {
                   group.classList.toggle('open', open);
@@ -458,37 +583,35 @@ jobs:
                   if (group) setGroup(group, true);
                 }
 
-                if (savedTheme === 'dark' || savedTheme === 'light') root.dataset.theme = savedTheme;
+                function syncDrawerAccessibility() {
+                  const open = body.classList.contains('nav-open');
+                  const hidden = isMobile() && !open;
+                  sidebar.setAttribute('aria-hidden', String(hidden));
+                  if ('inert' in sidebar) sidebar.inert = hidden;
+                  menuButton.setAttribute('aria-expanded', String(isMobile() && open));
+                  navBackdrop.setAttribute('aria-hidden', String(!open));
+                }
 
-                themeButton.addEventListener('click', function () {
-                  const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
-                  root.dataset.theme = next;
-                  localStorage.setItem('brand-docs-theme', next);
-                });
+                function openDrawer(options) {
+                  if (!isMobile()) return;
+                  const shouldFocus = !options || options.focus !== false;
+                  body.classList.add('nav-open');
+                  syncDrawerAccessibility();
+                  if (shouldFocus) closeMenuButton.focus();
+                }
 
-                menuButton.addEventListener('click', function () {
-                  document.body.classList.toggle('nav-open');
-                });
+                function closeDrawer(options) {
+                  const restoreFocus = !options || options.restoreFocus !== false;
+                  const focusWasInside = sidebar.contains(document.activeElement);
+                  body.classList.remove('nav-open');
+                  syncDrawerAccessibility();
+                  if (isMobile() && restoreFocus && focusWasInside) menuButton.focus();
+                }
 
-                document.querySelectorAll('.nav-trigger').forEach(function (trigger) {
-                  trigger.addEventListener('click', function () {
-                    const group = trigger.closest('.nav-group');
-                    setGroup(group, !group.classList.contains('open'));
-                  });
-                });
-
-                links.forEach(function (link) {
-                  link.addEventListener('click', function () {
-                    document.body.classList.remove('nav-open');
-                    links.forEach(function (item) { item.classList.remove('active'); });
-                    link.classList.add('active');
-                    currentPage.textContent = link.textContent.trim();
-                    openGroupForLink(link);
-                  });
-                });
-
-                search.addEventListener('input', function () {
-                  const term = search.value.trim().toLowerCase();
+                function applySearch(source) {
+                  const term = source.value.trim().toLowerCase();
+                  if (source !== search) search.value = source.value;
+                  if (source !== mobileSearch) mobileSearch.value = source.value;
 
                   groups.forEach(function (group) {
                     const groupLinks = Array.from(group.querySelectorAll('.nav-link'));
@@ -510,7 +633,62 @@ jobs:
                       setGroup(group, Boolean(active));
                     });
                   }
+                }
+
+                function syncResponsiveState() {
+                  if (!isMobile()) body.classList.remove('nav-open');
+                  syncDrawerAccessibility();
+                }
+
+                if (savedTheme === 'dark' || savedTheme === 'light') root.dataset.theme = savedTheme;
+                syncResponsiveState();
+
+                themeButton.addEventListener('click', function () {
+                  const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+                  root.dataset.theme = next;
+                  localStorage.setItem('brand-docs-theme', next);
                 });
+
+                menuButton.addEventListener('click', function () {
+                  if (body.classList.contains('nav-open')) closeDrawer();
+                  else openDrawer();
+                });
+
+                closeMenuButton.addEventListener('click', function () {
+                  closeDrawer();
+                });
+
+                navBackdrop.addEventListener('click', function () {
+                  closeDrawer();
+                });
+
+                document.addEventListener('keydown', function (event) {
+                  if (event.key === 'Escape' && body.classList.contains('nav-open')) {
+                    event.preventDefault();
+                    closeDrawer();
+                  }
+                });
+
+                document.querySelectorAll('.nav-trigger').forEach(function (trigger) {
+                  trigger.addEventListener('click', function () {
+                    const group = trigger.closest('.nav-group');
+                    setGroup(group, !group.classList.contains('open'));
+                  });
+                });
+
+                links.forEach(function (link) {
+                  link.addEventListener('click', function () {
+                    links.forEach(function (item) { item.classList.remove('active'); });
+                    link.classList.add('active');
+                    currentPage.textContent = link.textContent.trim();
+                    openGroupForLink(link);
+                    if (isMobile()) closeDrawer({ restoreFocus: false });
+                  });
+                });
+
+                search.addEventListener('input', function () { applySearch(search); });
+                mobileSearch.addEventListener('input', function () { applySearch(mobileSearch); });
+                mobileQuery.addEventListener('change', syncResponsiveState);
               </script>
             </body>
           </html>`;
