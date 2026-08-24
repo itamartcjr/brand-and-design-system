@@ -13,7 +13,11 @@
   <link rel="stylesheet" href="./brand-visual.css" />
   <link rel="stylesheet" href="./brand-hierarchy.css" />
   <link rel="stylesheet" href="./brand-item-visuals.css" />
-  <style>.workspace > .app{width:100%;max-width:none}</style>
+  <style>
+    .workspace > .app{width:100%;max-width:none}
+    .nav-home .nav-link[href="./design-system.html"],#downloadAll{display:none!important}
+    .github-link svg{width:18px;height:18px;display:block;fill:currentColor}
+  </style>
 </head>
 <body>
   <div class="backdrop" id="backdrop" aria-hidden="true"></div>
@@ -33,8 +37,10 @@
         <div class="crumb"><span>Brand / </span><strong id="pageTitle">Overview</strong></div>
         <div class="topbar-space"></div>
         <a class="top-link" href="./design-system.html">Design System</a>
-        <button id="downloadAll" class="top-action" type="button">Baixar framework</button>
-        <a class="top-link" href="https://github.com/itamartcjr/brand-and-design-system" target="_blank" rel="noreferrer">GitHub</a>
+        <button id="downloadAll" class="top-action" type="button" hidden aria-hidden="true" tabindex="-1">Baixar framework</button>
+        <a class="icon-button github-link" href="https://github.com/itamartcjr/brand-and-design-system" target="_blank" rel="noreferrer" aria-label="Abrir projeto no GitHub" title="GitHub">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .7a11.3 11.3 0 0 0-3.57 22c.57.1.78-.25.78-.55v-2.15c-3.18.69-3.85-1.35-3.85-1.35-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.25 3.33.96.1-.74.4-1.25.73-1.54-2.54-.29-5.21-1.27-5.21-5.65 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.46.11-3.03 0 0 .96-.31 3.11 1.17A10.8 10.8 0 0 1 12 6.92c.96 0 1.93.13 2.83.38 2.15-1.48 3.11-1.17 3.11-1.17.62 1.57.23 2.74.11 3.03.74.8 1.18 1.82 1.18 3.07 0 4.39-2.68 5.36-5.23 5.64.41.35.78 1.05.78 2.12v3.15c0 .3.2.66.79.55A11.3 11.3 0 0 0 12 .7Z"/></svg>
+        </a>
         <button id="themeButton" class="icon-button" type="button" aria-label="Alternar tema">◐</button>
       </header>
       <main id="app" class="app" tabindex="-1"><div class="loading">Carregando Brand Framework…</div></main>
