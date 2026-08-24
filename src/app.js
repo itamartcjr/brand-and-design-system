@@ -1,5 +1,5 @@
 import { groups, esc, num, markdownModule, frameworkRefs } from './brand-ui.js';
-import { overviewPage, modulePage } from './brand-pages.js';
+import { overviewPage, moduleIntro, moduleVisualMap, moduleSections, moduleFooter } from './brand-pages.js';
 import { audienceExtras, bindAudienceExtras } from './audience.js';
 import { personalityExtras, bindPersonalityExtras } from './personality.js';
 import { verbalExtras, bindVerbalExtras } from './verbal.js';
@@ -14,7 +14,44 @@ function notify(t){toast.textContent=t;toast.classList.add('show');clearTimeout(
 function setDrawer(open,restore=false){document.body.classList.toggle('nav-open',open&&mobile.matches);menuButton.setAttribute('aria-expanded',String(open&&mobile.matches));sidebar.setAttribute('aria-hidden',String(mobile.matches&&!open));if('inert'in sidebar)sidebar.inert=mobile.matches&&!open;if(!open&&restore)menuButton.focus()}
 function save(name,content,type='text/plain'){const blob=new Blob([content],{type}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),500)}
 async function copy(text){if(navigator.clipboard)await navigator.clipboard.writeText(text);else{notify('Clipboard indisponível');return}notify('Copiado')}
-function renderNav(filter=''){const r=route(),term=filter.trim().toLowerCase(),mods=data.modules.filter(m=>!term||[m.title,m.summary,...(m.fields||[]).map(f=>f.name)].join(' ').toLowerCase().includes(term));nav.innerHTML=`<div class="nav-group"><div class="nav-title">Start</div><a class="nav-link ${r.type==='overview'?'active':''}" href="#/overview"><span>00</span><strong>Overview</strong></a></div>`+groups.map(([label,min,max])=>{const list=mods.filter(m=>Number(m.number)>=min&&Number(m.number)<=max);return list.length?`<div class="nav-group"><div class="nav-title">${esc(label)}</div>${list.map(m=>`<a class="nav-link ${r.type==='module'&&r.id===m.id?'active':''}" href="#/module/${esc(m.id)}"><span>${num(m)}</span><strong>${esc(m.title)}</strong></a>`).join('')}</div>`:''}).join('');nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mobile.matches&&setDrawer(false)))}
+
+function renderNav(filter=''){
+  const r=route();
+  const term=filter.trim().toLowerCase();
+  const activeModule=r.type==='module'?moduleById(r.id):null;
+  const activeNumber=activeModule?Number(activeModule.number):null;
+  const mods=data.modules.filter(m=>!term||[m.title,m.summary,...(m.fields||[]).map(f=>f.name)].join(' ').toLowerCase().includes(term));
+  const start=`<div class="nav-home"><a class="nav-link ${r.type==='overview'?'active':''}" href="#/overview"><span>00</span><strong>Overview</strong></a></div>`;
+  const grouped=groups.map(([label,min,max],groupIndex)=>{
+    const list=mods.filter(m=>Number(m.number)>=min&&Number(m.number)<=max);
+    if(!list.length)return '';
+    const isActive=activeNumber!==null&&activeNumber>=min&&activeNumber<=max;
+    const open=Boolean(term)||isActive;
+    return `<div class="nav-group ${open?'open':''}" data-nav-group="${groupIndex}">
+      <button class="nav-group-toggle" type="button" data-nav-toggle aria-expanded="${open}">
+        <span>${esc(label)}</span><span class="nav-chevron" aria-hidden="true">›</span>
+      </button>
+      <div class="nav-group-items" ${open?'':'hidden'}>
+        ${list.map(m=>`<a class="nav-link ${r.type==='module'&&r.id===m.id?'active':''}" href="#/module/${esc(m.id)}"><span>${num(m)}</span><strong>${esc(m.title)}</strong></a>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+  nav.innerHTML=start+grouped;
+  nav.querySelectorAll('[data-nav-toggle]').forEach(toggle=>toggle.addEventListener('click',()=>{
+    const current=toggle.closest('.nav-group');
+    const willOpen=toggle.getAttribute('aria-expanded')!=='true';
+    nav.querySelectorAll('.nav-group').forEach(group=>{
+      const button=group.querySelector('[data-nav-toggle]');
+      const items=group.querySelector('.nav-group-items');
+      const open=group===current?willOpen:false;
+      group.classList.toggle('open',open);
+      button?.setAttribute('aria-expanded',String(open));
+      if(items)items.hidden=!open;
+    });
+  }));
+  nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mobile.matches&&setDrawer(false)));
+}
+
 function bind(module){
   if(!module)return;
   app.querySelectorAll('[data-scroll-to]').forEach(button=>button.addEventListener('click',()=>{
@@ -34,16 +71,27 @@ function bind(module){
   bindVerbalExtras(app,module,{save,copy,notify});
   bindModuleStudio(app,module,{save,copy,notify});
 }
+
 function render(scroll=true){
   const r=route(),module=r.type==='module'?moduleById(r.id):null;
   if(r.type==='module'&&!module){location.hash='#/overview';return}
   pageTitle.textContent=module?`${num(module)} — ${module.title}`:'Overview';
   document.title=`${pageTitle.textContent} · Brand Framework`;
-  app.innerHTML=module?modulePage(module,data)+audienceExtras(module)+personalityExtras(module)+verbalExtras(module)+moduleStudio(module):overviewPage(data);
+  app.innerHTML=module?[
+    moduleIntro(module,data),
+    moduleVisualMap(module,data),
+    audienceExtras(module),
+    personalityExtras(module),
+    verbalExtras(module),
+    moduleStudio(module),
+    moduleSections(module,data),
+    moduleFooter(module,data)
+  ].join(''):overviewPage(data);
   renderNav(navSearch.value);
   bind(module);
   if(scroll){app.focus({preventScroll:true});window.scrollTo({top:0,behavior:'instant'})}
 }
+
 async function init(){try{const res=await fetch('./brand-data.json',{cache:'no-store'});if(!res.ok)throw new Error(`HTTP ${res.status}`);data=await res.json();if(!Array.isArray(data.modules)||data.modules.length!==20)throw new Error('Brand data incompleto');data.frameworkRefs=frameworkRefs(data);render()}catch(error){console.error(error);app.innerHTML=`<header class="hero"><p class="eyebrow">Build error</p><h1>Não foi possível carregar o Brand Framework.</h1><p class="lead">${esc(error.message)}</p></header>`}}
 window.addEventListener('hashchange',()=>render());
 navSearch.addEventListener('input',()=>renderNav(navSearch.value));
@@ -54,6 +102,6 @@ document.addEventListener('keydown',e=>e.key==='Escape'&&setDrawer(false,true));
 mobile.addEventListener('change',()=>setDrawer(false));
 themeButton.addEventListener('click',()=>{const next=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=next;localStorage.setItem('brand-theme',next)});
 const saved=localStorage.getItem('brand-theme');if(saved==='dark'||saved==='light')document.documentElement.dataset.theme=saved;
-downloadAll.addEventListener('click',()=>save('brand-framework.json',JSON.stringify({version:'2.1.0',exportedAt:new Date().toISOString(),modules:data.modules},null,2),'application/json'));
+downloadAll.addEventListener('click',()=>save('brand-framework.json',JSON.stringify({version:data.meta?.version||'2.1.0',exportedAt:new Date().toISOString(),modules:data.modules},null,2),'application/json'));
 setDrawer(false);
 init();
