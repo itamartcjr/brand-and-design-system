@@ -32,7 +32,7 @@ for(const module of modules.filter(m=>Number(m.number)>=6)){
 }
 if((modules.find(m=>m.id==='governance')?.fields?.length||0)<20)throw new Error('Governance incompleto.');
 
-const brandData={meta:{name:'Brand Framework',version:'2.0.0',scope:'Brand only',generatedAt:new Date().toISOString(),status:'Complete architecture'},modules,references:{},resources:{}};
+const brandData={meta:{name:'Brand Framework',version:'2.1.0',scope:'Brand only',generatedAt:new Date().toISOString(),status:'Complete section-flow architecture'},modules,references:{},resources:{}};
 await rm(out,{recursive:true,force:true});await mkdir(out,{recursive:true});await cp(src,out,{recursive:true});await writeFile(new URL('brand-data.json',out),JSON.stringify(brandData,null,2),'utf8');
 const fieldCount=modules.reduce((sum,module)=>sum+module.fields.length,0);
-console.log(`Built Brand framework v2.0.0: ${modules.length} modules / ${fieldCount} fields / ${modules.filter(m=>m.extras?.studio).length} interactive studios.`);
+console.log(`Built Brand framework v2.1.0: ${modules.length} modules / ${fieldCount} full page sections / ${modules.filter(m=>m.extras?.studio).length} interactive studios.`);
