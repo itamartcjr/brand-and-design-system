@@ -1,44 +1,23 @@
 # Brand & Design System
 
-Nesta etapa o projeto publica exclusivamente o **Brand Framework**: um padrão reutilizável para construção, documentação, aplicação, IA e governança de marcas. A arquitetura de Design System será retomada separadamente.
+Este repositório é a referência estrutural reutilizável para **Brand Framework + Design System**. O objetivo é manter a mesma arquitetura de documentação entre marcas sem perder a identidade visual de cada projeto.
 
 ## Brand Framework
 
-O site contém 20 módulos:
+O Brand Framework contém 20 módulos, de Brand Core e Strategy até AI Brand Guidelines e Brand Governance. Cada item documentável prevê definição, objetivo, perguntas, exemplo, modelo, orientação editorial e, quando aplicável, evidências e referências.
 
-1. Brand Core
-2. Brand Strategy
-3. Audience
-4. Brand Personality
-5. Verbal Identity
-6. Messaging System
-7. Brand Storytelling
-8. Visual Brand Identity
-9. Typography
-10. Photography Direction
-11. Illustration
-12. Iconography
-13. Graphic Language
-14. Layout Principles
-15. Motion Identity
-16. Sonic Identity
-17. Brand Experience
-18. Brand in Action
-19. AI Brand Guidelines
-20. Brand Governance
+## Design System
 
-Cada item documentável prevê definição, objetivo, perguntas, exemplo preenchido, modelo vazio, orientação editorial e, quando aplicável, evidências, referências e recursos oficiais.
+A implementação visual está em `src/design-system.html` e `src/design-system.js`. A estrutura principal — sidebar, posição da marca/identificação, busca, topbar, ações e área de conteúdo — é a referência estrutural para outros projetos.
 
-## Interações
+A documentação executável está em [`docs/design-system/`](docs/design-system/README.md):
 
-- navegação Brand-only e busca;
-- módulos consultados item por item, sem páginas infinitas;
-- tabs de definição, objetivo, perguntas, exemplo, modelo e apresentação;
-- cópia de modelos;
-- download por módulo em JSON e Markdown;
-- exportação do framework em JSON para automações e IA;
-- links para guidelines, fontes, assets e recursos oficiais;
-- modo claro/escuro e navegação mobile.
+- `MASTER-PROMPT.md`: prompt principal para replicar a arquitetura em outro projeto;
+- `USING-IN-OTHER-PROJECTS.md`: passo a passo de reutilização;
+- uma página `MASTER.md` por grupo, capaz de executar todos os seus itens filhos;
+- um `.md` para cada página do Design System, com especificação, checklist e prompt pronto para geração.
+
+> Regra: **estrutura = este projeto de referência; identidade visual e motion = projeto de destino**. Os valores de tokens existentes no template são exemplos e nunca devem ser copiados cegamente.
 
 ## Desenvolvimento
 
@@ -46,7 +25,7 @@ Cada item documentável prevê definição, objetivo, perguntas, exemplo preench
 npm run build
 ```
 
-O build usa Node 22, valida o pacote dos 20 módulos e gera `dist/brand-data.json` antes da publicação no GitHub Pages.
+O build usa Node 22 e publica o projeto via GitHub Pages.
 
 ## Publicação
 
