@@ -32,6 +32,33 @@ function filteredModuleFields(module,term){
   return moduleMatch?fields:fields.filter(({field})=>[field.name,field.definition,field.objective].join(' ').toLowerCase().includes(term));
 }
 
+function setModuleOpen(moduleElement,open){
+  if(!moduleElement)return;
+  const button=moduleElement.querySelector('[data-module-toggle]');
+  const items=moduleElement.querySelector('.nav-module-items');
+  moduleElement.classList.toggle('open',open);
+  button?.setAttribute('aria-expanded',String(open));
+  if(items){
+    items.hidden=!open;
+    items.style.display=open?'':'none';
+  }
+}
+
+function setGroupOpen(groupElement,open){
+  if(!groupElement)return;
+  const button=groupElement.querySelector('[data-nav-toggle]');
+  const items=groupElement.querySelector('.nav-group-items');
+  groupElement.classList.toggle('open',open);
+  button?.setAttribute('aria-expanded',String(open));
+  if(items){
+    items.hidden=!open;
+    items.style.display=open?'':'none';
+  }
+  if(!open){
+    groupElement.querySelectorAll('.nav-module').forEach(moduleElement=>setModuleOpen(moduleElement,false));
+  }
+}
+
 function renderNav(filter=''){
   const r=route();
   const {module:activeModule,index:activeFieldIndex}=fieldByRoute(r);
@@ -81,27 +108,29 @@ function renderNav(filter=''){
   nav.querySelectorAll('[data-nav-toggle]').forEach(toggle=>toggle.addEventListener('click',()=>{
     const current=toggle.closest('.nav-group');
     const willOpen=toggle.getAttribute('aria-expanded')!=='true';
+
     nav.querySelectorAll('.nav-group').forEach(group=>{
-      const button=group.querySelector(':scope > [data-nav-toggle]');
-      const items=group.querySelector(':scope > .nav-group-items');
       const open=group===current?willOpen:false;
-      group.classList.toggle('open',open);
-      button?.setAttribute('aria-expanded',String(open));
-      if(items)items.hidden=!open;
+      setGroupOpen(group,open);
     });
+
+    if(willOpen&&current){
+      const active=current.querySelector('.nav-module-toggle.active')?.closest('.nav-module');
+      if(active)setModuleOpen(active,true);
+    }
   }));
 
-  nav.querySelectorAll('[data-module-toggle]').forEach(toggle=>toggle.addEventListener('click',()=>{
+  nav.querySelectorAll('[data-module-toggle]').forEach(toggle=>toggle.addEventListener('click',event=>{
+    event.preventDefault();
+    event.stopPropagation();
+
     const current=toggle.closest('.nav-module');
+    const container=current?.parentElement;
+    if(!current||!container)return;
+
     const willOpen=toggle.getAttribute('aria-expanded')!=='true';
-    const group=current?.closest('.nav-group-items');
-    group?.querySelectorAll(':scope > .nav-module').forEach(module=>{
-      const button=module.querySelector(':scope > [data-module-toggle]');
-      const items=module.querySelector(':scope > .nav-module-items');
-      const open=module===current?willOpen:false;
-      module.classList.toggle('open',open);
-      button?.setAttribute('aria-expanded',String(open));
-      if(items)items.hidden=!open;
+    Array.from(container.children).forEach(sibling=>{
+      if(sibling.classList?.contains('nav-module'))setModuleOpen(sibling,sibling===current&&willOpen);
     });
   }));
 
