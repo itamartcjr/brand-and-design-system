@@ -9,6 +9,18 @@ const isParts=document.body.dataset.page==='parts';
 let observer;
 let enhancing=false;
 
+function ensureBrandTopLink(){
+  const topbar=document.querySelector('.ds-topbar');
+  const github=topbar?.querySelector('.ds-github-link');
+  if(!topbar||!github||topbar.querySelector('.ds-brand-top-link'))return;
+  const link=document.createElement('a');
+  link.className='ds-top-link ds-brand-top-link';
+  link.href='./index.html';
+  link.textContent='Brand';
+  link.setAttribute('aria-label','Ir para Brand Framework');
+  github.before(link);
+}
+
 function setGroupOpen(group,open){
   group.classList.toggle('open',open);
   const title=group.querySelector(':scope > .ds-nav-toggle');
@@ -85,6 +97,8 @@ function enhanceNav(){
   observer?.observe(nav,{childList:true});
   enhancing=false;
 }
+
+ensureBrandTopLink();
 
 if(nav){
   observer=new MutationObserver(()=>enhanceNav());
