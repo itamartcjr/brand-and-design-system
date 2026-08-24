@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="description" content="Templates e parts reutilizáveis do Design System: hero, carousel, sliders, blog, seções, CTA, pricing, FAQ e outros padrões de composição." />
+  <meta name="theme-color" content="#ffffff" />
+  <title>Templates & Parts · Design System</title>
+  <link rel="stylesheet" href="./design-system.css" />
+  <link rel="stylesheet" href="./design-system-overrides.css" />
+  <link rel="stylesheet" href="./design-system-parts.css" />
+</head>
+<body data-page="parts">
+  <div class="ds-backdrop" id="dsBackdrop" aria-hidden="true"></div>
+  <div class="ds-shell">
+    <aside class="ds-sidebar" id="dsSidebar" aria-label="Navegação Templates & Parts">
+      <header class="ds-sidebar-head">
+        <a href="./design-system.html#/overview" class="ds-home"><span class="ds-mark">DS</span><span><strong>Design System</strong><small>Visual documentation</small></span></a>
+        <button id="drawerClose" class="ds-icon-button drawer-close" type="button" aria-label="Fechar menu">×</button>
+      </header>
+      <div class="ds-sidebar-search"><label><span aria-hidden="true">⌕</span><input id="navSearch" type="search" placeholder="Buscar parts" aria-label="Buscar Templates & Parts" /></label></div>
+      <nav id="nav" class="ds-nav">
+        <div class="ds-nav-group"><div class="ds-nav-title">Start</div><a class="ds-nav-link" href="./design-system.html#/overview"><span>00</span><strong>Overview</strong></a></div>
+      </nav>
+      <footer class="ds-sidebar-foot"><a href="./index.html">← Brand Framework</a><span>Templates de composição · cada projeto define suas variações</span></footer>
+    </aside>
+
+    <div class="ds-workspace">
+      <header class="ds-topbar">
+        <button id="menuButton" class="ds-icon-button menu-button" type="button" aria-label="Abrir menu" aria-expanded="false">☰</button>
+        <div class="ds-crumb"><span>Design System / </span><strong>Templates & Parts</strong></div>
+        <div class="ds-topbar-space"></div>
+        <a class="ds-github-link" href="https://github.com/itamartcjr/brand-and-design-system" target="_blank" rel="noreferrer" aria-label="GitHub" title="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .7a11.3 11.3 0 0 0-3.6 22c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.4-4-1.4-.5-1.4-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.1v3.2c0 .3.2.7.8.6A11.3 11.3 0 0 0 12 .7Z"/></svg></a>
+        <button id="themeButton" class="ds-icon-button" type="button" aria-label="Alternar tema">◐</button>
+      </header>
+
+      <main class="ds-app" tabindex="-1">
+        <header class="doc-hero">
+          <p class="doc-eyebrow">Design System / Templates & Parts</p>
+          <h1>Blocos prontos para compor produtos e sites.</h1>
+          <p>Uma biblioteca visual de composições reutilizáveis — do hero ao footer — para acelerar projetos sem transformar todas as marcas no mesmo layout.</p>
+        </header>
+
+        <section class="doc-section">
+          <div class="doc-section-head"><p class="section-kicker">01</p><h2>Para que serve</h2></div>
+          <div class="purpose-copy">
+            <p>Templates & Parts ficam acima dos componentes e abaixo das páginas finais. Eles combinam grid, tipografia, cores, botões, cards e conteúdo em padrões de composição que podem ser reutilizados, adaptados e remixados em cada projeto.</p>
+            <aside class="project-note"><div class="project-note-mark">↗</div><div><strong>Definição por projeto</strong><p>Estrutura, conteúdo, densidade, mídia, ritmo, proporções e ordem das partes devem ser definidos por marca e produto. O template documenta possibilidades, não uma aparência obrigatória.</p></div></aside>
+          </div>
+        </section>
+
+        <section class="doc-section visual-section">
+          <div class="doc-section-head"><p class="section-kicker">02</p><h2>Exemplos reais</h2><p>Cada part aparece em contexto, com variações suficientes para mostrar como o mesmo padrão pode mudar de acordo com objetivo e conteúdo.</p></div>
+
+          <article class="part-block" id="hero">
+            <header class="part-head"><div><small>01 · Hero</small><h3>Hero sections</h3><p>Aberturas para produto, campanha, institucional e landing pages.</p></div><span>3 variações</span></header>
+            <div class="part-stage hero-gallery">
+              <section class="hero-part split"><div class="hero-copy"><span class="mini-tag">New release</span><h4>Build experiences people remember.</h4><p>Uma composição com mensagem forte, apoio curto e dois níveis de ação.</p><div class="part-actions"><button class="part-btn dark">Start project</button><button class="part-btn ghost">See work →</button></div></div><div class="hero-media"><div class="media-orbit one"></div><div class="media-orbit two"></div><div class="media-card">01</div></div></section>
+              <section class="hero-part centered"><span class="mini-tag">Platform</span><h4>One system. Many expressions.</h4><p>Hero centralizado para mensagens simples, lançamento ou manifesto.</p><button class="part-btn dark">Explore platform</button><div class="hero-browser"><i></i><i></i><i></i><div></div></div></section>
+              <section class="hero-part editorial"><div class="editorial-number">03</div><div><small>Editorial hero</small><h4>Design as a living language.</h4></div><p>Versão editorial com grande contraste tipográfico e pouca interface.</p></section>
+            </div>
+          </article>
+
+          <article class="part-block" id="carousel">
+            <header class="part-head"><div><small>02 · Carousel</small><h3>Carousels</h3><p>Sequências horizontais para cases, conteúdo, categorias e produtos.</p></div><span>Cards + controls</span></header>
+            <div class="part-stage carousel-part"><div class="carousel-top"><div><small>Featured work</small><h4>Selected projects</h4></div><div class="carousel-controls"><button>←</button><button>→</button></div></div><div class="carousel-track"><article><div class="fake-media gradient-a"><span>01</span></div><small>Strategy · Product</small><h5>Turning complexity into clarity.</h5></article><article><div class="fake-media gradient-b"><span>02</span></div><small>Brand · Digital</small><h5>A new language for a growing brand.</h5></article><article><div class="fake-media gradient-c"><span>03</span></div><small>Platform · Experience</small><h5>One ecosystem, many journeys.</h5></article></div><div class="carousel-progress"><span></span></div></div>
+          </article>
+
+          <article class="part-block" id="slider">
+            <header class="part-head"><div><small>03 · Content Slider</small><h3>Slides & storytelling</h3><p>Slides narrativos para apresentar benefícios, etapas, provas e capítulos de conteúdo.</p></div><span>1 / 3</span></header>
+            <div class="part-stage story-slider"><div class="story-main"><small>Chapter 01</small><h4>From insight to interface.</h4><p>Cada slide pode combinar headline, supporting copy, indicadores e mídia sem depender de um formato de banner.</p><div class="story-meta"><span>Research</span><span>Strategy</span><span>Design</span></div></div><div class="story-visual"><span>01</span><div class="story-grid"></div></div><div class="story-thumbs"><button class="active"><b>01</b><span>Insight</span></button><button><b>02</b><span>System</span></button><button><b>03</b><span>Launch</span></button></div></div>
+          </article>
+
+          <article class="part-block" id="blog">
+            <header class="part-head"><div><small>04 · Blog & Articles</small><h3>Post cards</h3><p>Cards editoriais para blog, notícias, estudos, insights e recursos.</p></div><span>3 densidades</span></header>
+            <div class="part-stage blog-grid"><article class="blog-card featured"><div class="blog-media gradient-d"></div><div><small>Design Systems · 8 min</small><h4>How to keep a system alive without losing the brand.</h4><p>Estratégias de governança, documentação e evolução visual.</p><span>Read article →</span></div></article><article class="blog-card"><div class="blog-media gradient-e"></div><div><small>Brand · 5 min</small><h4>Building a visual language that scales.</h4><span>Read →</span></div></article><article class="blog-card compact"><div><small>Research · 12 min</small><h4>What teams need from documentation.</h4><p>Uma versão sem mídia para listas editoriais densas.</p><span>Read →</span></div></article></div>
+          </article>
+
+          <article class="part-block" id="sections">
+            <header class="part-head"><div><small>05 · Website Sections</small><h3>Seções de site</h3><p>Blocos estruturais para apresentar produto, prova, números e ecossistema.</p></div><span>Split · Logos · Stats</span></header>
+            <div class="part-stage section-stack"><section class="split-section"><div><small>Why it matters</small><h4>Clear systems create faster decisions.</h4></div><div><p>Combine narrativa e evidência em um split 5/7 ou 6/6. A proporção muda por projeto.</p><ul><li>Consistent experience</li><li>Shared language</li><li>Faster delivery</li></ul></div></section><section class="logo-cloud"><small>Trusted by teams building at scale</small><div><b>North</b><b>Frame</b><b>Orbit</b><b>Layer</b><b>Studio</b></div></section><section class="stats-section"><div><strong>42%</strong><span>faster handoff</span></div><div><strong>3×</strong><span>more reusable patterns</span></div><div><strong>18</strong><span>shared foundations</span></div><div><strong>1</strong><span>source of truth</span></div></section></div>
+          </article>
+
+          <article class="part-block" id="cta">
+            <header class="part-head"><div><small>06 · Call to Action</small><h3>CTA sections</h3><p>Fechamentos de fluxo com uma mensagem principal e ação clara.</p></div><span>Inline · Boxed</span></header>
+            <div class="part-stage cta-gallery"><section class="cta-dark"><div><small>Ready when you are</small><h4>Turn the system into a real product.</h4></div><button class="part-btn light">Start a project →</button></section><section class="cta-box"><span class="mini-tag">Next step</span><h4>Build from a shared foundation.</h4><p>Uma CTA mais compacta para fim de página ou transição entre conteúdos.</p><div class="part-actions centered-actions"><button class="part-btn dark">Get started</button><button class="part-btn ghost">Talk to us</button></div></section></div>
+          </article>
+
+          <article class="part-block" id="features">
+            <header class="part-head"><div><small>07 · Feature Grid</small><h3>Bento & feature grids</h3><p>Composições modulares para benefícios, funcionalidades e capabilities.</p></div><span>Asymmetric grid</span></header>
+            <div class="part-stage feature-bento"><article class="feature-main"><small>Foundation</small><h4>Everything starts with shared rules.</h4><div class="feature-lines"><i></i><i></i><i></i><i></i></div></article><article><small>Tokens</small><strong>Reusable values</strong><div class="token-dots"><i></i><i></i><i></i></div></article><article><small>Components</small><strong>Predictable behavior</strong><div class="mini-components"><i></i><i></i><i></i></div></article><article class="wide"><small>Governance</small><strong>Document decisions, not just screens.</strong></article></div>
+          </article>
+
+          <article class="part-block" id="testimonials">
+            <header class="part-head"><div><small>08 · Testimonials</small><h3>Social proof</h3><p>Depoimentos, quotes e provas qualitativas com diferentes níveis de destaque.</p></div><span>Quote cards</span></header>
+            <div class="part-stage quote-grid"><blockquote><p>“The system finally feels like our brand, not a generic component library.”</p><footer><span class="quote-avatar">AM</span><div><strong>Ana Martins</strong><small>Design Lead</small></div></footer></blockquote><blockquote class="quote-dark"><p>“We stopped redesigning the same decisions every sprint.”</p><footer><span class="quote-avatar">RC</span><div><strong>Rafael Costa</strong><small>Product Director</small></div></footer></blockquote></div>
+          </article>
+
+          <article class="part-block" id="pricing">
+            <header class="part-head"><div><small>09 · Pricing</small><h3>Pricing cards</h3><p>Planos, comparação e ação com hierarquia clara entre opções.</p></div><span>3 tiers</span></header>
+            <div class="part-stage pricing-grid"><article><small>Starter</small><h4>Free</h4><p>For small experiments.</p><button class="part-btn ghost full">Start free</button><ul><li>Core foundations</li><li>Basic components</li><li>Community support</li></ul></article><article class="recommended"><span class="mini-tag">Recommended</span><small>Scale</small><h4>$49</h4><p>For growing product teams.</p><button class="part-btn dark full">Choose Scale</button><ul><li>Full components</li><li>Templates & parts</li><li>Governance toolkit</li></ul></article><article><small>Enterprise</small><h4>Custom</h4><p>For complex ecosystems.</p><button class="part-btn ghost full">Contact sales</button><ul><li>Multi-brand setup</li><li>Advanced governance</li><li>Custom support</li></ul></article></div>
+          </article>
+
+          <article class="part-block" id="faq">
+            <header class="part-head"><div><small>10 · FAQ</small><h3>Accordions</h3><p>Perguntas frequentes e conteúdos expansíveis com estados documentados.</p></div><span>Closed · Open</span></header>
+            <div class="part-stage faq-list"><article><div><strong>What can change in each project?</strong><span>＋</span></div></article><article class="open"><div><strong>Do templates define the final visual style?</strong><span>−</span></div><p>No. They define composition logic and reusable relationships. Typography, color, imagery, density and expression still come from each brand.</p></article><article><div><strong>Should every page use every part?</strong><span>＋</span></div></article></div>
+          </article>
+
+          <article class="part-block" id="footer">
+            <header class="part-head"><div><small>11 · Footer</small><h3>Footer systems</h3><p>Encerramento estrutural para navegação secundária, legal, contato e presença de marca.</p></div><span>Desktop + responsive</span></header>
+            <div class="part-stage footer-part"><div class="footer-main"><div><strong class="footer-logo">BRAND</strong><p>Building clear systems for complex products.</p></div><div><small>Product</small><a>Overview</a><a>Features</a><a>Pricing</a></div><div><small>Company</small><a>About</a><a>Careers</a><a>Contact</a></div><div><small>Resources</small><a>Blog</a><a>Guides</a><a>Support</a></div></div><div class="footer-bottom"><span>© 2026 Brand</span><div><a>Privacy</a><a>Terms</a><a>LinkedIn ↗</a></div></div></div>
+          </article>
+        </section>
+
+        <section class="doc-section">
+          <div class="doc-section-head"><p class="section-kicker">03</p><h2>Informações técnicas</h2><p>Tokens de composição conectam parts ao grid, ao spacing e aos breakpoints do projeto.</p></div>
+          <div class="technical-table"><div class="tech-head"><span>Token / propriedade</span><span>Valor exemplo</span><span>Uso</span></div>
+            <div class="tech-row"><code>section.maxWidth</code><strong>1200px</strong><span>Largura máxima de conteúdo para seções editoriais.</span></div>
+            <div class="tech-row"><code>section.padding.desktop</code><strong>96px</strong><span>Ritmo vertical padrão em desktop.</span></div>
+            <div class="tech-row"><code>section.padding.mobile</code><strong>56px</strong><span>Ritmo vertical em telas compactas.</span></div>
+            <div class="tech-row"><code>hero.content.max</code><strong>720px</strong><span>Largura recomendada para texto principal de hero.</span></div>
+            <div class="tech-row"><code>carousel.gap</code><strong>24px</strong><span>Gap entre cards de carousel.</span></div>
+            <div class="tech-row"><code>carousel.card.min</code><strong>280px</strong><span>Largura mínima antes de alterar comportamento responsivo.</span></div>
+            <div class="tech-row"><code>blog.grid.columns</code><strong>3 / 2 / 1</strong><span>Desktop, tablet e mobile.</span></div>
+            <div class="tech-row"><code>cta.padding</code><strong>64px</strong><span>Espaço interno de CTA em destaque.</span></div>
+            <div class="tech-row"><code>part.radius</code><strong>20px</strong><span>Raio de referência para superfícies compostas.</span></div>
+            <div class="tech-row"><code>part.breakpoint.stack</code><strong>780px</strong><span>Breakpoint de empilhamento para composições complexas.</span></div>
+          </div>
+        </section>
+
+        <section class="doc-section">
+          <div class="doc-section-head"><p class="section-kicker">04</p><h2>Referências</h2><p>Fontes visuais e técnicas para validar composição, acessibilidade e comportamento responsivo.</p></div>
+          <div class="reference-grid"><a class="reference-card" href="https://www.figma.com/design/99947Dmc328mSa2FmYj5fP/Brand-e-Design-System?node-id=0-1&t=XyywlRgk12fIPGlo-1" target="_blank" rel="noreferrer"><div><small>Referência</small><strong>Figma — Brand & Design System</strong><p>Fonte visual do projeto e base para evolução dos templates.</p></div><span>↗</span></a><a class="reference-card" href="https://www.w3.org/WAI/ARIA/apg/" target="_blank" rel="noreferrer"><div><small>Referência</small><strong>WAI-ARIA Authoring Practices</strong><p>Comportamentos para carousels, accordions e controles interativos.</p></div><span>↗</span></a><a class="reference-card" href="https://developer.mozilla.org/en-US/docs/Web/CSS" target="_blank" rel="noreferrer"><div><small>Referência</small><strong>MDN — CSS</strong><p>Grid, container sizing, scroll snapping e responsividade.</p></div><span>↗</span></a></div>
+        </section>
+      </main>
+    </div>
+  </div>
+  <script type="module" src="./design-system-enhancements.js"></script>
+</body>
+</html>

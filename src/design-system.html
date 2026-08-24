@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="description" content="Design System visual e reutilizável com foundations, componentes, estados, especificações técnicas e referências." />
+  <meta name="description" content="Design System visual e reutilizável com foundations, componentes, estados, especificações técnicas, templates e parts." />
   <meta name="theme-color" content="#ffffff" />
   <title>Design System · Brand & Design System</title>
   <link rel="stylesheet" href="./design-system.css" />
+  <link rel="stylesheet" href="./design-system-overrides.css" />
 </head>
 <body>
   <div class="ds-backdrop" id="dsBackdrop" aria-hidden="true"></div>
@@ -23,7 +24,7 @@
         <label><span aria-hidden="true">⌕</span><input id="navSearch" type="search" placeholder="Buscar páginas" aria-label="Buscar Design System" /></label>
       </div>
       <nav id="nav" class="ds-nav"></nav>
-      <footer class="ds-sidebar-foot">Template visual · cada projeto define seus valores</footer>
+      <footer class="ds-sidebar-foot"><a href="./index.html">← Brand Framework</a><span>Template visual · cada projeto define seus valores</span></footer>
     </aside>
 
     <div class="ds-workspace">
@@ -31,14 +32,15 @@
         <button id="menuButton" class="ds-icon-button menu-button" type="button" aria-label="Abrir menu" aria-expanded="false">☰</button>
         <div class="ds-crumb"><span>Design System / </span><strong id="pageTitle">Overview</strong></div>
         <div class="ds-topbar-space"></div>
-        <a class="ds-top-link" href="./index.html">Brand</a>
-        <a class="ds-top-link" href="https://www.figma.com/design/99947Dmc328mSa2FmYj5fP/Brand-e-Design-System?node-id=0-1&t=XyywlRgk12fIPGlo-1" target="_blank" rel="noreferrer">Figma</a>
-        <a class="ds-top-link" href="https://github.com/itamartcjr/brand-and-design-system" target="_blank" rel="noreferrer">GitHub</a>
+        <a class="ds-github-link" href="https://github.com/itamartcjr/brand-and-design-system" target="_blank" rel="noreferrer" aria-label="GitHub" title="GitHub">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .7a11.3 11.3 0 0 0-3.6 22c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.4-4-1.4-.5-1.4-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.1v3.2c0 .3.2.7.8.6A11.3 11.3 0 0 0 12 .7Z"/></svg>
+        </a>
         <button id="themeButton" class="ds-icon-button" type="button" aria-label="Alternar tema">◐</button>
       </header>
       <main id="app" class="ds-app" tabindex="-1"><div class="ds-loading">Carregando Design System…</div></main>
     </div>
   </div>
   <script type="module" src="./design-system.js"></script>
+  <script type="module" src="./design-system-enhancements.js"></script>
 </body>
 </html>
