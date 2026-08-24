@@ -2,11 +2,12 @@ import { cp, mkdir, rm, writeFile } from 'node:fs/promises';
 import core from '../src/brand/modules/01-core.js';
 import strategy from '../src/brand/modules/02-strategy.js';
 import audience from '../src/brand/modules/03-audience.js';
+import personality from '../src/brand/modules/04-personality.js';
 import catalog from '../src/brand/modules/catalog.js';
 
 const out = new URL('../dist/', import.meta.url);
 const src = new URL('../src/', import.meta.url);
-const modules = [core, strategy, audience, ...catalog].sort((a,b) => Number(a.number) - Number(b.number));
+const modules = [core, strategy, audience, personality, ...catalog.filter(module => module.id !== 'personality')].sort((a,b) => Number(a.number) - Number(b.number));
 
 const ids = new Set(modules.map(module => module.id));
 const numbers = new Set(modules.map(module => Number(module.number)));
@@ -21,11 +22,14 @@ for (const module of modules) {
 if (audience.fields.length < 16) {
   throw new Error(`Audience incompleto: esperados ao menos 16 itens, encontrados ${audience.fields.length}.`);
 }
+if (personality.fields.length < 14 || !Array.isArray(personality.extras?.archetypes) || personality.extras.archetypes.length !== 12) {
+  throw new Error('Brand Personality incompleto: esperados ao menos 14 itens e 12 arquétipos.');
+}
 
 const brandData = {
   meta: {
     name: 'Brand Framework',
-    version: '1.1.1',
+    version: '1.2.0',
     scope: 'Brand only',
     generatedAt: new Date().toISOString()
   },
@@ -40,4 +44,4 @@ await cp(src, out, { recursive: true });
 await writeFile(new URL('brand-data.json', out), JSON.stringify(brandData, null, 2), 'utf8');
 
 const fieldCount = modules.reduce((sum, module) => sum + module.fields.length, 0);
-console.log(`Built Brand framework: ${modules.length} modules / ${fieldCount} fields / Audience ${audience.fields.length} fields.`);
+console.log(`Built Brand framework: ${modules.length} modules / ${fieldCount} fields / Audience ${audience.fields.length} / Personality ${personality.fields.length}.`);
