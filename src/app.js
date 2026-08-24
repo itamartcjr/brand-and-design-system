@@ -1,9 +1,5 @@
 import { groups, esc, num, markdownModule, frameworkRefs } from './brand-ui.js';
-import { overviewPage, moduleIntro, moduleVisualMap, moduleSections, moduleFooter } from './brand-pages.js';
-import { audienceExtras, bindAudienceExtras } from './audience.js';
-import { personalityExtras, bindPersonalityExtras } from './personality.js';
-import { verbalExtras, bindVerbalExtras } from './verbal.js';
-import { moduleStudio, bindModuleStudio } from './brand-studio.js';
+import { overviewPage, moduleIntro, moduleVisualMap, moduleExampleShowcase, moduleSections, moduleFooter } from './brand-pages.js';
 
 const app=document.getElementById('app'),nav=document.getElementById('nav'),pageTitle=document.getElementById('pageTitle'),navSearch=document.getElementById('navSearch'),themeButton=document.getElementById('themeButton'),menuButton=document.getElementById('menuButton'),drawerClose=document.getElementById('drawerClose'),backdrop=document.getElementById('backdrop'),downloadAll=document.getElementById('downloadAll'),sidebar=document.getElementById('sidebar'),toast=document.getElementById('toast');
 const mobile=window.matchMedia('(max-width:760px)');
@@ -66,13 +62,20 @@ function bind(module){
     if(!field)return;
     copy(button.dataset.copyKind==='example'?(field.example||''):(field.template||''));
   }));
+  app.querySelectorAll('[data-example-tab]').forEach(button=>button.addEventListener('click',()=>{
+    const showcase=button.closest('.example-showcase');
+    if(!showcase)return;
+    const id=button.dataset.exampleTab;
+    showcase.querySelectorAll('[data-example-tab]').forEach(tab=>{
+      const active=tab===button;
+      tab.classList.toggle('active',active);
+      tab.setAttribute('aria-selected',String(active));
+    });
+    showcase.querySelectorAll('[data-example-panel]').forEach(panel=>panel.classList.toggle('active',panel.dataset.examplePanel===id));
+  }));
   app.querySelector('[data-download="json"]')?.addEventListener('click',()=>save(`${module.extras?.downloadName||num(module)+'-'+module.id}.json`,JSON.stringify(module,null,2),'application/json'));
   app.querySelector('[data-download="md"]')?.addEventListener('click',()=>save(`${module.extras?.downloadName||num(module)+'-'+module.id}.md`,markdownModule(module),'text/markdown'));
   app.querySelector('[data-copy-module]')?.addEventListener('click',()=>copy(markdownModule(module)));
-  bindAudienceExtras(app,module);
-  bindPersonalityExtras(app,module,{save,copy,notify});
-  bindVerbalExtras(app,module,{save,copy,notify});
-  bindModuleStudio(app,module,{save,copy,notify});
 }
 
 function render(scroll=true){
@@ -83,10 +86,7 @@ function render(scroll=true){
   app.innerHTML=module?[
     moduleIntro(module,data),
     moduleVisualMap(module,data),
-    audienceExtras(module),
-    personalityExtras(module),
-    verbalExtras(module),
-    moduleStudio(module),
+    moduleExampleShowcase(module,data),
     moduleSections(module,data),
     moduleFooter(module,data)
   ].join(''):overviewPage(data);
