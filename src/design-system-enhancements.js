@@ -1,3 +1,5 @@
+import './design-system-references.js';
+
 const PARTS=[
   ['Hero','#hero'],['Carousel','#carousel'],['Content Slider','#slider'],['Blog & Articles','#blog'],['Website Sections','#sections'],['Call to Action','#cta'],['Feature Grid','#features'],['Testimonials','#testimonials'],['Pricing','#pricing'],['FAQ','#faq'],['Footer','#footer']
 ];
