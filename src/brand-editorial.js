@@ -2,10 +2,17 @@ import { esc, num } from './brand-ui.js';
 
 const safe=value=>Array.isArray(value)?value:[];
 
-function pageLink(module,index,label,direction){
+function pageLink(module,index,direction){
   if(index<0||index>=(module.fields?.length||0))return'<span></span>';
   const field=module.fields[index];
   return `<a class="item-page-nav-link ${direction}" href="#/module/${esc(module.id)}/${index}"><span>${direction==='prev'?'← Anterior':'Próximo →'}</span><strong>${num(module)}.${String(index+1).padStart(2,'0')} — ${esc(field.name)}</strong></a>`;
+}
+
+function openingExample(field,presentation){
+  return `<section class="item-opening-example" aria-label="Exemplo de ${esc(field.name||'item')}">
+    <div class="example-main"><small>Exemplo preenchido</small><blockquote>${esc(field.example||'Exemplo a preencher.')}</blockquote></div>
+    <aside class="example-note"><small>Como deve aparecer</small><p>${esc(presentation)}</p></aside>
+  </section>`;
 }
 
 export function editorialFieldPage(module,index,visualGuide=''){
@@ -17,6 +24,7 @@ export function editorialFieldPage(module,index,visualGuide=''){
   const questions=safe(field.questions);
   const template=field.template||`${field.name}: [preencher]`;
   const presentation=field.presentation||'Apresente esta decisão com clareza, um exemplo real e o nível de especificação necessário para reproduzi-la.';
+  const opening=visualGuide||openingExample(field,presentation);
 
   return `<article class="brand-item-page" data-module="${esc(module.id)}" data-field-index="${index}">
     <header class="item-page-hero">
@@ -26,7 +34,7 @@ export function editorialFieldPage(module,index,visualGuide=''){
       <p class="item-page-lead">${esc(field.definition||'Definição a preencher.')}</p>
     </header>
 
-    ${visualGuide||''}
+    ${opening}
 
     <section class="item-page-core">
       <div class="editorial-field-body">
@@ -39,17 +47,10 @@ export function editorialFieldPage(module,index,visualGuide=''){
         ${questions.length?`<aside class="editorial-questions"><p class="editorial-kicker">Perguntas-chave</p><ol>${questions.map(question=>`<li>${esc(question)}</li>`).join('')}</ol></aside>`:''}
       </div>
 
-      <div class="editorial-example-row">
-        <div>
-          <p class="editorial-kicker">Exemplo aplicado</p>
-          <p class="editorial-example-copy">${esc(field.example||'Exemplo a preencher.')}</p>
-          <button class="text-action" type="button" data-copy-section="${index}" data-copy-kind="example">Copiar exemplo</button>
-        </div>
-        <div>
-          <p class="editorial-kicker">Como deve aparecer</p>
-          <p>${esc(presentation)}</p>
-        </div>
-      </div>
+      ${visualGuide?`<div class="editorial-example-row">
+        <div><p class="editorial-kicker">Exemplo aplicado</p><p class="editorial-example-copy">${esc(field.example||'Exemplo a preencher.')}</p><button class="text-action" type="button" data-copy-section="${index}" data-copy-kind="example">Copiar exemplo</button></div>
+        <div><p class="editorial-kicker">Como deve aparecer</p><p>${esc(presentation)}</p></div>
+      </div>`:`<div class="editorial-presentation-line"><p class="editorial-kicker">Critério de apresentação</p><p>${esc(presentation)}</p><button class="text-action" type="button" data-copy-section="${index}" data-copy-kind="example">Copiar exemplo</button></div>`}
 
       <details class="editorial-template">
         <summary>Ver modelo para preencher</summary>
@@ -59,8 +60,8 @@ export function editorialFieldPage(module,index,visualGuide=''){
     </section>
 
     <nav class="item-page-pagination" aria-label="Navegação entre itens do módulo">
-      ${pageLink(module,index-1,'Anterior','prev')}
-      ${pageLink(module,index+1,'Próximo','next')}
+      ${pageLink(module,index-1,'prev')}
+      ${pageLink(module,index+1,'next')}
     </nav>
   </article>`;
 }
