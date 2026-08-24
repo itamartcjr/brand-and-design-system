@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="description" content="Template reutilizável de Brand Book e Design System" />
+    <meta name="theme-color" content="#ffffff" />
+    <title>Brand & Design System</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="backdrop" id="backdrop" aria-hidden="true"></div>
+    <div class="app-shell">
+      <aside class="sidebar" id="sidebar" aria-label="Navegação da documentação">
+        <header class="sidebar-header">
+          <a class="brand-home" href="#/overview" aria-label="Brand System — início">
+            <span class="brand-mark">BD</span>
+            <span class="brand-name"><strong>Brand System</strong><small>Documentation standard</small></span>
+          </a>
+          <button class="icon-button drawer-close" id="drawerClose" type="button" aria-label="Fechar menu">×</button>
+        </header>
+        <div class="sidebar-search">
+          <label class="search-field">
+            <span aria-hidden="true">⌕</span>
+            <input id="navSearch" type="search" placeholder="Buscar páginas" />
+          </label>
+        </div>
+        <nav class="nav" id="nav"></nav>
+        <footer class="sidebar-footer">Template v0.5 · Brand / App / Web</footer>
+      </aside>
+
+      <div class="workspace">
+        <header class="topbar">
+          <button class="icon-button menu-button" id="menuButton" type="button" aria-label="Abrir menu" aria-controls="sidebar" aria-expanded="false">☰</button>
+          <div class="breadcrumb"><span>Documentation / </span><strong id="pageTitle">Overview</strong></div>
+          <div class="topbar-spacer"></div>
+          <a class="topbar-link" href="https://www.figma.com/design/99947Dmc328mSa2FmYj5fP/Brand-e-Design-System?node-id=0-1" target="_blank" rel="noreferrer">Figma</a>
+          <a class="topbar-link" href="https://github.com/itamartcjr/brand-and-design-system" target="_blank" rel="noreferrer">GitHub</a>
+          <button class="icon-button" id="themeButton" type="button" aria-label="Alternar tema">◐</button>
+        </header>
+        <main id="app" tabindex="-1"></main>
+      </div>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
