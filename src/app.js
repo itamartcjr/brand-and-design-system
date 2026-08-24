@@ -1,5 +1,7 @@
 import { groups, esc, num, markdownModule, frameworkRefs } from './brand-ui.js';
-import { overviewPage, moduleIntro, moduleVisualMap, moduleExampleShowcase, moduleSections, moduleFooter } from './brand-pages.js';
+import { overviewPage, moduleIntro, moduleVisualMap, moduleExampleShowcase, moduleFooter } from './brand-pages.js';
+import { editorialModuleSections } from './brand-editorial.js';
+import { moduleVisualGuide } from './brand-visual-guide.js';
 
 const app=document.getElementById('app'),nav=document.getElementById('nav'),pageTitle=document.getElementById('pageTitle'),navSearch=document.getElementById('navSearch'),themeButton=document.getElementById('themeButton'),menuButton=document.getElementById('menuButton'),drawerClose=document.getElementById('drawerClose'),backdrop=document.getElementById('backdrop'),downloadAll=document.getElementById('downloadAll'),sidebar=document.getElementById('sidebar'),toast=document.getElementById('toast');
 const mobile=window.matchMedia('(max-width:760px)');
@@ -51,6 +53,20 @@ function renderNav(filter=''){
   nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mobile.matches&&setDrawer(false)));
 }
 
+function bindTabs(selector,panelSelector,dataKey,panelKey){
+  app.querySelectorAll(selector).forEach(button=>button.addEventListener('click',()=>{
+    const root=button.closest('.example-showcase,.visual-guideline');
+    if(!root)return;
+    const id=button.dataset[dataKey];
+    root.querySelectorAll(selector).forEach(tab=>{
+      const active=tab===button;
+      tab.classList.toggle('active',active);
+      tab.setAttribute('aria-selected',String(active));
+    });
+    root.querySelectorAll(panelSelector).forEach(panel=>panel.classList.toggle('active',panel.dataset[panelKey]===id));
+  }));
+}
+
 function bind(module){
   if(!module)return;
   app.querySelectorAll('[data-scroll-to]').forEach(button=>button.addEventListener('click',()=>{
@@ -62,17 +78,8 @@ function bind(module){
     if(!field)return;
     copy(button.dataset.copyKind==='example'?(field.example||''):(field.template||''));
   }));
-  app.querySelectorAll('[data-example-tab]').forEach(button=>button.addEventListener('click',()=>{
-    const showcase=button.closest('.example-showcase');
-    if(!showcase)return;
-    const id=button.dataset.exampleTab;
-    showcase.querySelectorAll('[data-example-tab]').forEach(tab=>{
-      const active=tab===button;
-      tab.classList.toggle('active',active);
-      tab.setAttribute('aria-selected',String(active));
-    });
-    showcase.querySelectorAll('[data-example-panel]').forEach(panel=>panel.classList.toggle('active',panel.dataset.examplePanel===id));
-  }));
+  bindTabs('[data-example-tab]','[data-example-panel]','exampleTab','examplePanel');
+  bindTabs('[data-visual-tab]','[data-visual-panel]','visualTab','visualPanel');
   app.querySelector('[data-download="json"]')?.addEventListener('click',()=>save(`${module.extras?.downloadName||num(module)+'-'+module.id}.json`,JSON.stringify(module,null,2),'application/json'));
   app.querySelector('[data-download="md"]')?.addEventListener('click',()=>save(`${module.extras?.downloadName||num(module)+'-'+module.id}.md`,markdownModule(module),'text/markdown'));
   app.querySelector('[data-copy-module]')?.addEventListener('click',()=>copy(markdownModule(module)));
@@ -83,11 +90,12 @@ function render(scroll=true){
   if(r.type==='module'&&!module){location.hash='#/overview';return}
   pageTitle.textContent=module?`${num(module)} — ${module.title}`:'Overview';
   document.title=`${pageTitle.textContent} · Brand Framework`;
+  const visualGuide=module?moduleVisualGuide(module):'';
   app.innerHTML=module?[
     moduleIntro(module,data),
     moduleVisualMap(module,data),
-    moduleExampleShowcase(module,data),
-    moduleSections(module,data),
+    visualGuide || moduleExampleShowcase(module,data),
+    editorialModuleSections(module),
     moduleFooter(module,data)
   ].join(''):overviewPage(data);
   renderNav(navSearch.value);
