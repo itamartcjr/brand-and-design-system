@@ -1,19 +1,11 @@
 const app=document.getElementById('app');
 
-const TABBED_PAGES=new Set([
-  'Buttons',
-  'Icon Buttons',
-  'Selection Controls',
-  'Slider',
-  'Tags',
-  'Navigation',
-  'Tabs',
-  'Header Links',
-  'Forms',
-  'Cards',
-  'Tables',
-  'Modals & Popups',
-  'Banners & Messaging'
+const TABBED_ROUTES=new Set([
+  'grid','spacing','typography','colors','icons','effects',
+  'avatars',
+  'buttons','icon-buttons','selects-controls','slider','tags',
+  'navigation','tabs','header-links','forms',
+  'cards','tables','modals-popups','banners-messaging'
 ]);
 
 let scheduled=false;
@@ -21,7 +13,10 @@ let scheduled=false;
 function params(){return new URLSearchParams(location.search);}
 function isPart(){return Boolean(params().get('part'));}
 function isMotion(){return params().get('page')==='motion';}
-function pageTitle(){return app?.querySelector(':scope > .doc-hero h1')?.textContent.trim()||'';}
+function routeId(){
+  const raw=(location.hash||'#/overview').replace(/^#\/?/,'');
+  return raw.split(/[/?]/)[0]||'overview';
+}
 
 function tabScope(){
   if(!app)return null;
@@ -29,10 +24,17 @@ function tabScope(){
 }
 
 function shouldUseTabs(){
-  if(!app)return false;
-  if(app.querySelector(':scope > .runtime-overview'))return false;
+  if(!app||app.querySelector(':scope > .runtime-overview'))return false;
   if(isPart()||isMotion())return true;
-  return TABBED_PAGES.has(pageTitle());
+  return TABBED_ROUTES.has(routeId());
+}
+
+function normalizeLabels(tabs){
+  const labels={overview:'Overview',usage:'Uso',tokens:'Tokens',code:'Código',references:'Referências'};
+  tabs.querySelectorAll('[data-ds-tab]').forEach(button=>{
+    const label=labels[button.dataset.dsTab];
+    if(label)button.textContent=label;
+  });
 }
 
 function restoreTabbedPanels(scope,tabs){
@@ -55,8 +57,9 @@ function restoreTabbedPanels(scope,tabs){
 }
 
 function showAsTabs(scope,tabs){
+  normalizeLabels(tabs);
   tabs.hidden=false;
-  tabs.dataset.tabsMode='document';
+  tabs.dataset.tabsMode='brand';
   scope.classList.add('ds-tabbed-detail');
   restoreTabbedPanels(scope,tabs);
 }
