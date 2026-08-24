@@ -21,7 +21,10 @@ function renderNav(filter=''){
   const activeModule=r.type==='module'?moduleById(r.id):null;
   const activeNumber=activeModule?Number(activeModule.number):null;
   const mods=data.modules.filter(m=>!term||[m.title,m.summary,...(m.fields||[]).map(f=>f.name)].join(' ').toLowerCase().includes(term));
-  const start=`<div class="nav-home"><a class="nav-link ${r.type==='overview'?'active':''}" href="#/overview"><span>00</span><strong>Overview</strong></a></div>`;
+  const start=`<div class="nav-home">
+    <a class="nav-link ${r.type==='overview'?'active':''}" href="#/overview"><span>00</span><strong>Overview</strong></a>
+    <a class="nav-link" href="./design-system.html"><span>DS</span><strong>Design System</strong></a>
+  </div>`;
   const grouped=groups.map(([label,min,max],groupIndex)=>{
     const list=mods.filter(m=>Number(m.number)>=min&&Number(m.number)<=max);
     if(!list.length)return '';
