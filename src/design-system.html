@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="description" content="Design System visual e reutilizável com foundations, componentes, estados, especificações técnicas e referências." />
+  <meta name="theme-color" content="#ffffff" />
+  <title>Design System · Brand & Design System</title>
+  <link rel="stylesheet" href="./design-system.css" />
+</head>
+<body>
+  <div class="ds-backdrop" id="dsBackdrop" aria-hidden="true"></div>
+  <div class="ds-shell">
+    <aside class="ds-sidebar" id="dsSidebar" aria-label="Navegação Design System">
+      <header class="ds-sidebar-head">
+        <a href="#/overview" class="ds-home">
+          <span class="ds-mark">DS</span>
+          <span><strong>Design System</strong><small>Visual documentation</small></span>
+        </a>
+        <button id="drawerClose" class="ds-icon-button drawer-close" type="button" aria-label="Fechar menu">×</button>
+      </header>
+      <div class="ds-sidebar-search">
+        <label><span aria-hidden="true">⌕</span><input id="navSearch" type="search" placeholder="Buscar páginas" aria-label="Buscar Design System" /></label>
+      </div>
+      <nav id="nav" class="ds-nav"></nav>
+      <footer class="ds-sidebar-foot">Template visual · cada projeto define seus valores</footer>
+    </aside>
+
+    <div class="ds-workspace">
+      <header class="ds-topbar">
+        <button id="menuButton" class="ds-icon-button menu-button" type="button" aria-label="Abrir menu" aria-expanded="false">☰</button>
+        <div class="ds-crumb"><span>Design System / </span><strong id="pageTitle">Overview</strong></div>
+        <div class="ds-topbar-space"></div>
+        <a class="ds-top-link" href="./index.html">Brand</a>
+        <a class="ds-top-link" href="https://www.figma.com/design/99947Dmc328mSa2FmYj5fP/Brand-e-Design-System?node-id=0-1&t=XyywlRgk12fIPGlo-1" target="_blank" rel="noreferrer">Figma</a>
+        <a class="ds-top-link" href="https://github.com/itamartcjr/brand-and-design-system" target="_blank" rel="noreferrer">GitHub</a>
+        <button id="themeButton" class="ds-icon-button" type="button" aria-label="Alternar tema">◐</button>
+      </header>
+      <main id="app" class="ds-app" tabindex="-1"><div class="ds-loading">Carregando Design System…</div></main>
+    </div>
+  </div>
+  <script type="module" src="./design-system.js"></script>
+</body>
+</html>
