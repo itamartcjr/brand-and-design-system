@@ -2,7 +2,7 @@ const app=document.getElementById('app');
 
 const TABBED_ROUTES=new Set([
   'grid','spacing','typography','colors','icons','effects',
-  'avatars',
+  'logo','illustrations','avatars',
   'buttons','icon-buttons','selects-controls','slider','tags',
   'navigation','tabs','header-links','forms',
   'cards','tables','modals-popups','banners-messaging'
